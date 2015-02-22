@@ -1280,7 +1280,9 @@ final class HeadsetStateMachine extends StateMachine {
                     processLocalVrEvent(HeadsetHalConstants.VR_STATE_STOPPED);
                     break;
                 case INTENT_SCO_VOLUME_CHANGED:
-                    processIntentScoVolume((Intent) message.obj, mActiveScoDevice);
+                    if (mActiveScoDevice != null) {
+                        processIntentScoVolume((Intent) message.obj, mActiveScoDevice);
+                    }
                     break;
                 case CALL_STATE_CHANGED:
                     processCallState((HeadsetCallState) message.obj, ((message.arg1 == 1)?true:false));

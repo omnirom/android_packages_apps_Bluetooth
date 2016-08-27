@@ -36,9 +36,8 @@
     <string name="incoming_file_confirm_ok" msgid="281462442932231475">"स्वीकारें"</string>
     <string name="incoming_file_confirm_timeout_ok" msgid="1414676773249857278">"ठीक है"</string>
     <string name="incoming_file_confirm_timeout_content" msgid="172779756093975981">"\"<xliff:g id="SENDER">%1$s</xliff:g>\" से आने वाली फ़ाइल स्वीकार करते समय समयबाह्य हुआ."</string>
-    <string name="incoming_file_confirm_Notification_title" msgid="2958227698135117210">"ब्लूटूथ शेयर: आने वाली फ़ाइल"</string>
-    <string name="incoming_file_confirm_Notification_caption" msgid="6671081128475981157">"क्या आप यह फ़ाइल प्राप्त करना चाहते हैं?"</string>
-    <string name="incoming_file_toast_msg" msgid="1733710749992901811">"दूसरे डिवाइस से कोई फ़ाइल आ रही है. सुनिश्चित करें कि आप यह फ़ाइल प्राप्त करना चाहते हैं."</string>
+    <string name="incoming_file_confirm_Notification_title" msgid="5573329005298936903">"आवक फ़ाइल"</string>
+    <string name="incoming_file_confirm_Notification_content" msgid="3359694069319644738">"<xliff:g id="SENDER">%1$s</xliff:g> <xliff:g id="FILE">%2$s</xliff:g> भेजने के लिए तैयार है"</string>
     <string name="notification_receiving" msgid="4674648179652543984">"ब्लूटूथ शेयर: <xliff:g id="FILE">%1$s</xliff:g> प्राप्त कर रहा है"</string>
     <string name="notification_received" msgid="3324588019186687985">"ब्लूटूथ शेयर: <xliff:g id="FILE">%1$s</xliff:g> प्राप्त"</string>
     <string name="notification_received_fail" msgid="3619350997285714746">"ब्लूटूथ शेयर: फ़ाइल <xliff:g id="FILE">%1$s</xliff:g> प्राप्त नहीं हुई"</string>
@@ -104,22 +103,31 @@
     <string name="btopp_live_folder" msgid="7967791481444474554">"ब्लूटूथ प्राप्त"</string>
     <string name="download_success" msgid="7036160438766730871">"<xliff:g id="FILE_SIZE">%1$s</xliff:g> प्राप्ति पूर्ण."</string>
     <string name="upload_success" msgid="4014469387779648949">"<xliff:g id="FILE_SIZE">%1$s</xliff:g> भेजना पूर्ण."</string>
-    <string name="inbound_history_title" msgid="6940914942271327563">"अंतर्गामी स्थानांतरण"</string>
-    <string name="outbound_history_title" msgid="4279418703178140526">"बहिर्गामी स्थानांतरण"</string>
+    <string name="inbound_history_title" msgid="6940914942271327563">"इनबाउंड स्थानांतरण"</string>
+    <string name="outbound_history_title" msgid="4279418703178140526">"आउटबाउंड स्थानांतरण"</string>
     <string name="no_transfers" msgid="3482965619151865672">"स्थानांतरण इतिहास खाली है."</string>
     <string name="transfer_clear_dlg_msg" msgid="1712376797268438075">"सूची से सभी आइटम साफ़ कर दिए जाएंगे."</string>
     <string name="outbound_noti_title" msgid="8051906709452260849">"ब्लूटूथ शेयर: भेजी गई फ़ाइलें"</string>
     <string name="inbound_noti_title" msgid="4143352641953027595">"ब्लूटूथ शेयर: प्राप्त फ़ाइलें"</string>
-    <string name="noti_caption" msgid="7508708288885707365">"<xliff:g id="SUCCESSFUL_NUMBER_0">%1$s</xliff:g> सफल, <xliff:g id="UNSUCCESSFUL_NUMBER">%2$s</xliff:g> विफल."</string>
+    <plurals name="noti_caption_unsuccessful" formatted="false" msgid="2020750076679526122">
+      <item quantity="one"><xliff:g id="UNSUCCESSFUL_NUMBER_1">%1$d</xliff:g> असफल.</item>
+      <item quantity="other"><xliff:g id="UNSUCCESSFUL_NUMBER_1">%1$d</xliff:g> असफल.</item>
+    </plurals>
+    <plurals name="noti_caption_success" formatted="false" msgid="1572472450257645181">
+      <item quantity="one"><xliff:g id="SUCCESSFUL_NUMBER_1">%1$d</xliff:g> सफल, %2$s</item>
+      <item quantity="other"><xliff:g id="SUCCESSFUL_NUMBER_1">%1$d</xliff:g> सफल, %2$s</item>
+    </plurals>
     <string name="transfer_menu_clear_all" msgid="790017462957873132">"सूची साफ़ करें"</string>
     <string name="transfer_menu_open" msgid="3368984869083107200">"खोलें"</string>
     <string name="transfer_menu_clear" msgid="5854038118831427492">"सूची से साफ़ करें"</string>
     <string name="transfer_clear_dlg_title" msgid="2953444575556460386">"साफ़ करें"</string>
     <string name="bluetooth_map_settings_save" msgid="7635491847388074606">"सहेजें"</string>
     <string name="bluetooth_map_settings_cancel" msgid="9205350798049865699">"अभी नहीं"</string>
-    <string name="bluetooth_map_settings_intro" msgid="6793938602201480648">"वे खाते चुनें जिन्हें आप ब्लूटूथ के द्वारा साझा करना चाहते हैं. आपको अभी भी कनेक्ट करते समय खातों की सभी ऐक्सेस को स्वीकार करना होगा."</string>
+    <string name="bluetooth_map_settings_intro" msgid="6482369468223987562">"वे खाते चुनें जिन्हें आप ब्लूटूथ के माध्यम से साझा करना चाहते हैं. आपको अभी भी कनेक्ट करते समय खातों के किसी भी एक्सेस को स्वीकार करना होगा."</string>
     <string name="bluetooth_map_settings_count" msgid="4557473074937024833">"शेष स्लॉट:"</string>
     <string name="bluetooth_map_settings_app_icon" msgid="7105805610929114707">"ऐप्लिकेशन आइकन"</string>
     <string name="bluetooth_map_settings_title" msgid="7420332483392851321">"ब्लूटूथ संदेश साझाकरण सेटिंग"</string>
     <string name="bluetooth_map_settings_no_account_slots_left" msgid="1796029082612965251">"खाता नहीं चुना जा सकता. 0 स्लॉट शेष"</string>
+    <string name="bluetooth_connected" msgid="6718623220072656906">"ब्लूटूथ ऑडियो कनेक्ट किया गया"</string>
+    <string name="bluetooth_disconnected" msgid="3318303728981478873">"ब्लूटूथ ऑडियो डिस्कनेक्ट किया गया"</string>
 </resources>

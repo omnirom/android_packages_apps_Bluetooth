@@ -23,11 +23,12 @@
     <bool name="profile_supported_pan">true</bool>
     <bool name="profile_supported_pbap">true</bool>
     <bool name="profile_supported_gatt">true</bool>
-    <bool name="pbap_include_photos_in_vcard">false</bool>
+    <bool name="pbap_include_photos_in_vcard">true</bool>
     <bool name="pbap_use_profile_for_owner_vcard">true</bool>
     <bool name="profile_supported_map">true</bool>
     <bool name="profile_supported_avrcp_controller">false</bool>
     <bool name="profile_supported_sap">false</bool>
+    <bool name="profile_supported_pbapclient">false</bool>
 
     <!-- If true, we will require location to be enabled on the device to
          fire Bluetooth LE scan result callbacks in addition to having one
@@ -48,4 +49,10 @@
          restrict the initial volume to the threshold.
          Valid value is 1-14, and recommended value is 8 -->
     <integer name="a2dp_absolute_volume_initial_threshold">8</integer>
+
+    <!-- For A2DP sink ducking volume feature. -->
+    <integer name="a2dp_sink_duck_percent">25</integer>
+
+    <!-- For enabling the hfp client connection service -->
+    <bool name="hfp_client_connection_service_enabled">false</bool>
 </resources>

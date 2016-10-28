@@ -16,7 +16,7 @@
 
 #define LOG_TAG "BluetoothAvrcpServiceJni"
 
-#define LOG_NDEBUG 0
+//#define LOG_NDEBUG 0
 
 #include "com_android_bluetooth.h"
 #include "hardware/bt_rc.h"
@@ -50,7 +50,7 @@ static bool checkCallbackThread() {
 }
 
 static void btavrcp_remote_features_callback(bt_bdaddr_t* bd_addr, btrc_remote_features_t features) {
-    ALOGI("%s", __FUNCTION__);
+    ALOGV("%s", __FUNCTION__);
     jbyteArray addr;
 
     if (!checkCallbackThread()) {
@@ -76,7 +76,7 @@ static void btavrcp_remote_features_callback(bt_bdaddr_t* bd_addr, btrc_remote_f
 }
 
 static void btavrcp_get_play_status_callback() {
-    ALOGI("%s", __FUNCTION__);
+    ALOGV("%s", __FUNCTION__);
 
     if (!checkCallbackThread()) {
         ALOGE("Callback: '%s' is not called on the correct thread", __FUNCTION__);
@@ -94,7 +94,7 @@ static void btavrcp_get_play_status_callback() {
 static void btavrcp_get_element_attr_callback(uint8_t num_attr, btrc_media_attr_t *p_attrs) {
     jintArray attrs;
 
-    ALOGI("%s", __FUNCTION__);
+    ALOGV("%s", __FUNCTION__);
 
     if (!checkCallbackThread()) {
         ALOGE("Callback: '%s' is not called on the correct thread", __FUNCTION__);
@@ -131,7 +131,7 @@ static void btavrcp_register_notification_callback(btrc_event_id_t event_id, uin
 }
 
 static void btavrcp_volume_change_callback(uint8_t volume, uint8_t ctype) {
-    ALOGI("%s", __FUNCTION__);
+    ALOGV("%s", __FUNCTION__);
 
     if (!checkCallbackThread()) {
         ALOGE("Callback: '%s' is not called on the correct thread", __FUNCTION__);
@@ -148,7 +148,7 @@ static void btavrcp_volume_change_callback(uint8_t volume, uint8_t ctype) {
 }
 
 static void btavrcp_passthrough_command_callback(int id, int pressed) {
-    ALOGI("%s", __FUNCTION__);
+    ALOGV("%s", __FUNCTION__);
 
     if (!checkCallbackThread()) {
         ALOGE("Callback: '%s' is not called on the correct thread", __FUNCTION__);
@@ -197,7 +197,7 @@ static void classInitNative(JNIEnv* env, jclass clazz) {
     method_handlePassthroughCmd =
         env->GetMethodID(clazz, "handlePassthroughCmd", "(II)V");
 
-    ALOGI("%s: succeeds", __FUNCTION__);
+    ALOGV("%s: succeeds", __FUNCTION__);
 }
 
 static void initNative(JNIEnv *env, jobject object) {
@@ -260,7 +260,7 @@ static jboolean getPlayStatusRspNative(JNIEnv *env, jobject object, jint playSta
                                        jint songLen, jint songPos) {
     bt_status_t status;
 
-    ALOGI("%s: sBluetoothAvrcpInterface: %p", __FUNCTION__, sBluetoothAvrcpInterface);
+    ALOGV("%s: sBluetoothAvrcpInterface: %p", __FUNCTION__, sBluetoothAvrcpInterface);
     if (!sBluetoothAvrcpInterface) return JNI_FALSE;
 
     if ((status = sBluetoothAvrcpInterface->get_play_status_rsp((btrc_play_status_t)playStatus,
@@ -342,7 +342,7 @@ static jboolean registerNotificationRspPlayStatusNative(JNIEnv *env, jobject obj
     bt_status_t status;
     btrc_register_notification_t param;
 
-    ALOGI("%s: sBluetoothAvrcpInterface: %p", __FUNCTION__, sBluetoothAvrcpInterface);
+    ALOGV("%s: sBluetoothAvrcpInterface: %p", __FUNCTION__, sBluetoothAvrcpInterface);
     if (!sBluetoothAvrcpInterface) return JNI_FALSE;
 
     param.play_status = (btrc_play_status_t)playStatus;
@@ -361,7 +361,7 @@ static jboolean registerNotificationRspTrackChangeNative(JNIEnv *env, jobject ob
     jbyte *trk;
     int i;
 
-    ALOGI("%s: sBluetoothAvrcpInterface: %p", __FUNCTION__, sBluetoothAvrcpInterface);
+    ALOGV("%s: sBluetoothAvrcpInterface: %p", __FUNCTION__, sBluetoothAvrcpInterface);
     if (!sBluetoothAvrcpInterface) return JNI_FALSE;
 
     trk = env->GetByteArrayElements(track, NULL);
@@ -403,9 +403,9 @@ static jboolean setVolumeNative(JNIEnv *env, jobject object, jint volume) {
     bt_status_t status;
 
     //TODO: delete test code
-    ALOGI("%s: jint: %d, uint8_t: %u", __FUNCTION__, volume, (uint8_t) volume);
+    ALOGV("%s: jint: %d, uint8_t: %u", __FUNCTION__, volume, (uint8_t) volume);
 
-    ALOGI("%s: sBluetoothAvrcpInterface: %p", __FUNCTION__, sBluetoothAvrcpInterface);
+    ALOGV("%s: sBluetoothAvrcpInterface: %p", __FUNCTION__, sBluetoothAvrcpInterface);
     if (!sBluetoothAvrcpInterface) return JNI_FALSE;
 
     if ((status = sBluetoothAvrcpInterface->set_volume((uint8_t)volume)) != BT_STATUS_SUCCESS) {

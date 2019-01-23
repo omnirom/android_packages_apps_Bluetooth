@@ -78,6 +78,8 @@ public class ScanManager {
     private static final int MSG_SUSPEND_SCANS = 4;
     private static final int MSG_RESUME_SCANS = 5;
     private static final int MSG_IMPORTANCE_CHANGE = 6;
+    /* To handle display changed events in Handler thread context to avoid ANR */
+    private static final int MSG_HANDLE_DISPLAY_CHANGED = 7;
     private static final String ACTION_REFRESH_BATCHED_SCAN =
             "com.android.bluetooth.gatt.REFRESH_BATCHED_SCAN";
 
@@ -281,6 +283,7 @@ public class ScanManager {
 
         @Override
         public void handleMessage(Message msg) {
+            Log.i(TAG, "msg.what = " + msg.what);
             switch (msg.what) {
                 case MSG_START_BLE_SCAN:
                     handleStartScan((ScanClient) msg.obj);
@@ -302,6 +305,9 @@ public class ScanManager {
                     break;
                 case MSG_IMPORTANCE_CHANGE:
                     handleImportanceChange((UidImportance) msg.obj);
+                    break;
+                case MSG_HANDLE_DISPLAY_CHANGED:
+                    handleScanOnDisplayChanged();
                     break;
                 default:
                     // Shouldn't happen.
@@ -1465,11 +1471,7 @@ public class ScanManager {
 
                 @Override
                 public void onDisplayChanged(int displayId) {
-                    if (isScreenOn() && mLocationManager.isLocationEnabled()) {
-                        sendMessage(MSG_RESUME_SCANS, null);
-                    } else {
-                        sendMessage(MSG_SUSPEND_SCANS, null);
-                    }
+                    sendMessage(MSG_HANDLE_DISPLAY_CHANGED, null);
                 }
             };
 
@@ -1540,6 +1542,14 @@ public class ScanManager {
         }
         if (updatedScanParams) {
             mScanNative.configureRegularScanParams();
+        }
+    }
+
+    private void handleScanOnDisplayChanged() {
+        if (isScreenOn() && mLocationManager.isLocationEnabled()) {
+            sendMessage(MSG_RESUME_SCANS, null);
+        } else {
+            sendMessage(MSG_SUSPEND_SCANS, null);
         }
     }
 }

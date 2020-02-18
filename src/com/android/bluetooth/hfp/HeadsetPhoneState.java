@@ -280,6 +280,7 @@ public class HeadsetPhoneState {
 
         @Override
         public synchronized void onServiceStateChanged(ServiceState serviceState) {
+            Log.d(TAG, "onServiceStateChanged serviceState = " + serviceState);
             mServiceState = serviceState;
             int cindService = (serviceState.getState() == ServiceState.STATE_IN_SERVICE)
                     ? HeadsetHalConstants.NETWORK_STATE_AVAILABLE
@@ -294,6 +295,7 @@ public class HeadsetPhoneState {
             mCindService = cindService;
             mCindRoam = newRoam;
 
+            Log.d(TAG, "onServiceStateChanged cindService = " + cindService);
             // If this is due to a SIM insertion, we want to defer sending device state changed
             // until all the SIM config is loaded.
             if (cindService == HeadsetHalConstants.NETWORK_STATE_NOT_AVAILABLE) {
@@ -306,11 +308,14 @@ public class HeadsetPhoneState {
             mHeadsetService.registerReceiver(new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
+                    Log.d(TAG, "TelephonyIntents.ACTION_SIM_STATE_CHANGED " + intent);
                     if (TelephonyIntents.ACTION_SIM_STATE_CHANGED.equals(intent.getAction())) {
                         // This is a sticky broadcast, so if it's already been loaded,
                         // this'll execute immediately.
-                        if (IccCardConstants.INTENT_VALUE_ICC_LOADED.equals(
-                                intent.getStringExtra(IccCardConstants.INTENT_KEY_ICC_STATE))) {
+                        Log.d(TAG, "INTENT_KEY_ICC_STATE " + intent.getStringExtra(IccCardConstants.INTENT_KEY_ICC_STATE));
+                        String state = intent.getStringExtra(IccCardConstants.INTENT_KEY_ICC_STATE);
+                        if (IccCardConstants.INTENT_VALUE_ICC_LOADED.equals(state) ||
+                                    IccCardConstants.INTENT_VALUE_ICC_READY.equals(state)) {
                             mIsSimStateLoaded = true;
                             sendDeviceStateChanged();
                             mHeadsetService.unregisterReceiver(this);

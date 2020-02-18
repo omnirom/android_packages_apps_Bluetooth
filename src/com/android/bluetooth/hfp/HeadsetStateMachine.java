@@ -73,7 +73,7 @@ import java.util.Scanner;
 @VisibleForTesting
 public class HeadsetStateMachine extends StateMachine {
     private static final String TAG = "HeadsetStateMachine";
-    private static final boolean DBG = false;
+    private static final boolean DBG = true;
 
     private static final String HEADSET_NAME = "bt_headset_name";
     private static final String HEADSET_NREC = "bt_headset_nrec";
@@ -440,6 +440,7 @@ public class HeadsetStateMachine extends StateMachine {
             super.enter();
             mConnectingTimestampMs = Long.MIN_VALUE;
             mPhonebook.resetAtState();
+            log("Disconnected");
             updateAgIndicatorEnableState(null);
             mNeedDialingOutReply = false;
             mAudioParams.clear();
@@ -968,6 +969,7 @@ public class HeadsetStateMachine extends StateMachine {
                             processAtBiev(event.valueInt, event.valueInt2, event.device);
                             break;
                         case HeadsetStackEvent.EVENT_TYPE_BIA:
+                            log("HeadsetStackEvent.EVENT_TYPE_BIA");
                             updateAgIndicatorEnableState(
                                     (HeadsetAgIndicatorEnableState) event.valueObject);
                             break;
@@ -1025,6 +1027,7 @@ public class HeadsetStateMachine extends StateMachine {
         public void enter() {
             super.enter();
             if (mPrevState == mConnecting) {
+                log("Connected");
                 // Reset AG indicator subscriptions, HF can set this later using AT+BIA command
                 updateAgIndicatorEnableState(DEFAULT_AG_INDICATOR_ENABLE_STATE);
                 // Reset NREC on connect event. Headset will override later
@@ -1448,6 +1451,7 @@ public class HeadsetStateMachine extends StateMachine {
         if (silence == mDeviceSilenced) {
             return false;
         }
+        log("setSilenceDevice " + silence);
         if (silence) {
             mSystemInterface.getHeadsetPhoneState().listenForPhoneState(mDevice,
                     PhoneStateListener.LISTEN_NONE);
@@ -1990,6 +1994,7 @@ public class HeadsetStateMachine extends StateMachine {
                     + mAgIndicatorEnableState);
             return;
         }
+        log("updateAgIndicatorEnableState " + agIndicatorEnableState);
         mAgIndicatorEnableState = agIndicatorEnableState;
         int events = PhoneStateListener.LISTEN_NONE;
         if (mAgIndicatorEnableState != null && mAgIndicatorEnableState.service) {

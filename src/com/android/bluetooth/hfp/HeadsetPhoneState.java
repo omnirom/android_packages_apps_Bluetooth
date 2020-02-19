@@ -30,6 +30,8 @@ import android.telephony.SubscriptionManager.OnSubscriptionsChangedListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
+import com.android.bluetooth.R;
+
 import com.android.internal.annotations.VisibleForTesting;
 import com.android.internal.telephony.IccCardConstants;
 import com.android.internal.telephony.TelephonyIntents;
@@ -77,6 +79,9 @@ public class HeadsetPhoneState {
     private PhoneStateListener mPhoneStateListener;
     private final OnSubscriptionsChangedListener mOnSubscriptionsChangedListener;
 
+    // omni additions start
+    private final boolean mIgnoreSimState;
+
     HeadsetPhoneState(HeadsetService headsetService) {
         Objects.requireNonNull(headsetService, "headsetService is null");
         mHeadsetService = headsetService;
@@ -91,6 +96,7 @@ public class HeadsetPhoneState {
         mOnSubscriptionsChangedListener = new HeadsetPhoneStateOnSubscriptionChangedListener(
                 headsetService.getStateMachinesThreadLooper());
         mSubscriptionManager.addOnSubscriptionsChangedListener(mOnSubscriptionsChangedListener);
+        mIgnoreSimState = mHeadsetService.getResources().getBoolean(R.bool.hfp_ignore_sim_state_for_signal_strength);
     }
 
     /**
@@ -245,13 +251,15 @@ public class HeadsetPhoneState {
     }
 
     private void sendDeviceStateChanged() {
-        int service =
-                mIsSimStateLoaded ? mCindService : HeadsetHalConstants.NETWORK_STATE_NOT_AVAILABLE;
+        int service = mIgnoreSimState ?
+                mCindService :
+                (mIsSimStateLoaded ? mCindService : HeadsetHalConstants.NETWORK_STATE_NOT_AVAILABLE);
+
         // When out of service, send signal strength as 0. Some devices don't
         // use the service indicator, but only the signal indicator
         int signal = service == HeadsetHalConstants.NETWORK_STATE_AVAILABLE ? mCindSignal : 0;
 
-        Log.d(TAG, "sendDeviceStateChanged. mService=" + mCindService + " mIsSimStateLoaded="
+        Log.d(TAG, "sendDeviceStateChanged. mService=" + service + " mIsSimStateLoaded="
                 + mIsSimStateLoaded + " mSignal=" + signal + " mRoam=" + mCindRoam
                 + " mBatteryCharge=" + mCindBatteryCharge);
         mHeadsetService.onDeviceStateChanged(
